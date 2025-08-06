@@ -31,11 +31,11 @@ class TranslatableModel(models.Model):
             raise AttributeError
 
     @classmethod
-    def lang_field(cls):
+    def get_language_field(cls):
         return models.CharField('Language', max_length=15, db_index=True)
 
     @classmethod
-    def parent_field(cls):
+    def get_parent_field(cls):
         return models.ForeignKey(
             cls,
             on_delete=models.CASCADE,

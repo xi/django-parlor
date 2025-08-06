@@ -24,7 +24,7 @@ class MyModel(TranslatableModel):
 
 class MyModelTranslation(model.Model):
     parent = MyModel.get_parent_field()
-    language_code = MyModel.get_lang_field()
+    language_code = MyModel.get_language_field()
 
     label = models.CharField(max_length=32)
     ...
