@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-parlor"
+version = "0.0.1"
+description = "Django model translations with even less nasty hacks."
+readme = "README.md"
+license = {text = "MIT"}
+keywords = ["django", "translation"]
+authors = [
+    {name = "Tobias Bengfort", email = "tobias.bengfort@posteo.de"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "django>=3.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/xi/django-parlor"
+
+[tool.setuptools.packages.find]
+include = ["parlor*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "C9", "I", "Q", "UP", "RUF"]
+ignore = ["RUF012"]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+
+[tool.ruff.lint.isort]
+force-single-line = true
