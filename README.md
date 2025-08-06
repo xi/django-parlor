@@ -25,6 +25,8 @@ class MyModel(TranslatableModel):
 class MyModelTranslation(model.Model):
     parent = MyModel.get_parent_field()
     language_code = MyModel.get_lang_field()
+
+    label = models.CharField(max_length=32)
     ...
 
     class Meta:
@@ -32,6 +34,11 @@ class MyModelTranslation(model.Model):
 
 
 admin.site.register(MyModel, TranslatableAdmin)
+
+animal = MyModel.objects.create()
+animal.translations.create(language_code='en', label='Frog')
+animal.translations.create(language_code='de', label='Frosch')
+print(animal.label)
 ```
 
 ## Status
