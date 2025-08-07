@@ -1,11 +1,5 @@
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.translation import get_language
-
-
-class TranslationFallback:
-    def __getattr__(self, key):
-        return 'not translated'
 
 
 class TranslatableModel(models.Model):
@@ -15,20 +9,15 @@ class TranslatableModel(models.Model):
     @property
     def translation(self):
         if not self.pk:
-            return TranslationFallback()
-
-        lang = get_language()
+            raise self.translations.model.DoesNotExist
 
         translation = self.__dict__.get('_translation')
-        if translation and translation.language_code == lang:
+        if translation and translation.language_code == get_language():
             return translation
 
-        try:
-            translation = self.translations.get(language_code=lang)
-            self.__dict__['_translation'] = translation
-            return translation
-        except ObjectDoesNotExist:
-            return TranslationFallback()
+        translation = self.translations.get(language_code=get_language())
+        self.__dict__['_translation'] = translation
+        return translation
 
     def refresh_from_db(self, *args, **kwargs):
         self.__dict__.pop('_translation', None)
@@ -37,7 +26,10 @@ class TranslatableModel(models.Model):
     def __getattr__(self, key):
         fields = self.translations.model._meta.get_fields()
         if key in (f.attname for f in fields):
-            return getattr(self.translation, key)
+            try:
+                return getattr(self.translation, key)
+            except self.translations.model.DoesNotExist:
+                return 'not translated'
         else:
             raise AttributeError
 
