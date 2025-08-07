@@ -22,7 +22,7 @@ class MyModel(TranslatableModel):
     ...
 
 
-class MyModelTranslation(model.Model):
+class MyModelTranslation(models.Model):
     parent = MyModel.get_parent_field()
     language_code = MyModel.get_language_field()
 
