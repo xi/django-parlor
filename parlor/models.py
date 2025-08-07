@@ -1,6 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from django.utils.functional import cached_property
 from django.utils.translation import get_language
 
 
@@ -13,15 +12,27 @@ class TranslatableModel(models.Model):
     class Meta:
         abstract = True
 
-    @cached_property
+    @property
     def translation(self):
+        if not self.pk:
+            return TranslationFallback()
+
         lang = get_language()
-        if self.pk:
-            try:
-                return self.translations.get(language_code=lang)
-            except ObjectDoesNotExist:
-                pass
-        return TranslationFallback()
+
+        translation = self.__dict__.get('_translation')
+        if translation and translation.language_code == lang:
+            return translation
+
+        try:
+            translation = self.translations.get(language_code=lang)
+            self.__dict__['_translation'] = translation
+            return translation
+        except ObjectDoesNotExist:
+            return TranslationFallback()
+
+    def refresh_from_db(self, *args, **kwargs):
+        self.__dict__.pop('_translation', None)
+        return super().refresh_from_db(*args, **kwargs)
 
     def __getattr__(self, key):
         fields = self.translations.model._meta.get_fields()
