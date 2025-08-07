@@ -8,12 +8,12 @@ class TranslatableModel(models.Model):
 
     @property
     def translation(self):
-        if not self.pk:
-            raise self.translations.model.DoesNotExist
-
         translation = self.__dict__.get('_translation')
         if translation and translation.language_code == get_language():
             return translation
+
+        if not self.pk:
+            raise self.translations.model.DoesNotExist
 
         translation = self.translations.get(language_code=get_language())
         self.__dict__['_translation'] = translation
