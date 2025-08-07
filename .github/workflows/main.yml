@@ -8,7 +8,7 @@ jobs:
     - run: pip install ruff
     - name: linters
       run: |
-        ruff check parlor
+        ruff check parlor tests
   test:
     runs-on: ubuntu-latest
     strategy:
