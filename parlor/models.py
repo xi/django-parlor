@@ -25,13 +25,12 @@ class TranslatableModel(models.Model):
 
     def __getattr__(self, key):
         fields = self.translations.model._meta.get_fields()
-        if key in (f.attname for f in fields):
-            try:
-                return getattr(self.translation, key)
-            except self.translations.model.DoesNotExist:
-                return 'not translated'
-        else:
+        if key not in (f.attname for f in fields):
             raise AttributeError
+        try:
+            return getattr(self.translation, key)
+        except self.translations.model.DoesNotExist:
+            return 'not translated'
 
     @classmethod
     def get_language_field(cls):
