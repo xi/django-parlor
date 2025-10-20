@@ -1,3 +1,8 @@
+## 0.0.3 (2025-10-20)
+
+-   fix `TranslatableAdmin` for create views
+
+
 ## 0.0.2 (2025-08-07)
 
 -   rename classmethods
