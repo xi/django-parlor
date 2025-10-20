@@ -7,7 +7,7 @@ name = "django-parlor"
 version = "0.0.2"
 description = "Django model translations with even less nasty hacks."
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
 keywords = ["django", "translation"]
 authors = [
     {name = "Tobias Bengfort", email = "tobias.bengfort@posteo.de"},
@@ -17,7 +17,6 @@ classifiers = [
     "Environment :: Web Environment",
     "Framework :: Django",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
