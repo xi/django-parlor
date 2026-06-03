@@ -1,3 +1,9 @@
+## 0.0.4 (2026-06-03)
+
+-   fall back to `settings.LANGUAGE_CODE` if translation in current language is
+    not available
+
+
 ## 0.0.3 (2025-10-20)
 
 -   fix `TranslatableAdmin` for create views
