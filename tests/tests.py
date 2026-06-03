@@ -50,6 +50,20 @@ class TranslatableModelTests(TestCase):
         with translation.override('en'):
             self.assertEqual(animal.label, 'not translated')
 
+    def test_fallback_language(self):
+        animal = MyModel.objects.create()
+        animal.translations.create(language_code='en', label='Frog')
+
+        with translation.override('fr'):
+            self.assertEqual(animal.label, 'Frog')
+
+    def test_other_language(self):
+        animal = MyModel.objects.create()
+        animal.translations.create(language_code='de', label='Frosch')
+
+        with translation.override('fr'):
+            self.assertEqual(animal.label, 'not translated')
+
     def test_non_field(self):
         animal = MyModel.objects.create()
 

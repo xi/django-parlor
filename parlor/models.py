@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils.translation import get_language
 
@@ -15,7 +16,12 @@ class TranslatableModel(models.Model):
         if not self.pk:
             raise self.translations.model.DoesNotExist
 
-        translation = self.translations.get(language_code=get_language())
+        try:
+            translation = self.translations.get(language_code=get_language())
+        except self.translations.model.DoesNotExist:
+            translation = self.translations.get(
+                language_code=settings.LANGUAGE_CODE
+            )
         self.__dict__['_translation'] = translation
         return translation
 

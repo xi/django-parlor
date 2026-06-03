@@ -10,3 +10,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 INSTALLED_APPS = [
     'tests',
 ]
+
+LANGUAGE_CODE = 'en'
